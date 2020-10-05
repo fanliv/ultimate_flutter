@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:ultimate_flutter/quiz_brand.dart';
 
+QuizzBrain quizzBrain = QuizzBrain();
 void main() {
   runApp(
     MaterialApp(
@@ -17,16 +20,27 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Icon> scoreKeeper = [
-    Icon(
-      Icons.check,
-      color: Colors.green,
-    ),
-    Icon(
-      Icons.close,
-      color: Colors.red,
-    )
-  ];
+  List<Icon> scoreKeeper = [];
+  void checkAnswer(bool userPickedAnswer) {
+    bool correctAnswer = quizzBrain.getQuestionAnswer();
+
+    userPickedAnswer == correctAnswer
+        ? scoreKeeper.add(
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+          )
+        : scoreKeeper.add(
+            Icon(
+              Icons.close,
+              color: Colors.red,
+            ),
+          );
+    quizzBrain.nextQuestion();
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,7 +51,7 @@ class _MyAppState extends State<MyApp> {
           Expanded(
             child: Center(
                 child: Text(
-              'Hello',
+              quizzBrain.getQuestionText(),
               style: TextStyle(color: Colors.white, fontSize: 20),
             )),
             flex: 5,
@@ -47,9 +61,7 @@ class _MyAppState extends State<MyApp> {
             padding: const EdgeInsets.only(left: 16, right: 16, top: 32),
             child: FlatButton(
               onPressed: () {
-                setState(() {
-                  scoreKeeper.add(Icon(Icons.check, color: Colors.green));
-                });
+                checkAnswer(true);
               },
               child: Text(
                 'True',
@@ -64,9 +76,7 @@ class _MyAppState extends State<MyApp> {
             padding: const EdgeInsets.all(16.0),
             child: FlatButton(
               onPressed: () {
-                setState(() {
-                  scoreKeeper.add(Icon(Icons.close, color: Colors.red));
-                });
+                checkAnswer(false);
               },
               child: Text(
                 'False',
@@ -84,4 +94,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
