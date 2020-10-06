@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:ultimate_flutter/quiz_brand.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 QuizzBrain quizzBrain = QuizzBrain();
 void main() {
@@ -39,6 +40,7 @@ class _MyAppState extends State<MyApp> {
           );
     quizzBrain.nextQuestion();
     setState(() {});
+    Alert(context: context, title: "RFLUTTER", desc: "Flutter is awesome.").show();
   }
 
   @override
